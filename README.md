@@ -33,6 +33,6 @@ https://github.com/user-attachments/assets/c7ae8316-9fca-4479-aa62-29ced208dd1e
 Contributions are welcome! If you find a bug or would like to create a new feature, please submit a pull request.
 
 ## License
-This library is licensed under the MIT License. See [LICENSE](https://github.com/AmirSinaRZ/PersianCalendar?tab=Apache-2.0-1-ov-file)
+This library is licensed under the  Apache-2.0 license. See [LICENSE](https://github.com/AmirSinaRZ/PersianCalendar?tab=Apache-2.0-1-ov-file)
 
 Developed by Amirsina Razghandi
