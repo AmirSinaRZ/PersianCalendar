@@ -25,15 +25,13 @@ android {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            groupId = "com.github.AmirSinaRZ"
-            artifactId = "persiancalendar"
-            version = "1.0.0"
-
-            afterEvaluate {
-                from(components["release"])
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId="com.github.AmirSinaRZ"
+                artifactId="persiancalendar"
+                version="1.0.0"
             }
         }
     }
