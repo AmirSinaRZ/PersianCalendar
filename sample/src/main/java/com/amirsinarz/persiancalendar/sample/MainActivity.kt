@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,9 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.amirsinarz.persiancalendar.PersianCalendarDefaults
-import com.amirsinarz.persiancalendar.model.JalaliDate
 import com.amirsinarz.persiancalendar.sample.ui.theme.SampleTheme
 import com.amirsinarz.persiancalendar.view.PersianCalendar
+import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,12 +40,10 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         var text by remember { mutableStateOf("") }
-                        var today by remember { mutableIntStateOf(1) }
 
                         PersianCalendar(
                             modifier = Modifier.padding(8.dp),
                             elevation = 5.dp,
-                            initDate = JalaliDate(1397, 4, today),
                             colors = PersianCalendarDefaults.getPersianCalendarColors(
                                 headerColor = Color(0xFF007776),
                                 headerDaysOfWeekColor = Color(0xFF007776),
@@ -57,11 +54,12 @@ class MainActivity : ComponentActivity() {
                                 todayColor = Color(0xFF007776),
                                 containerColor = Color.White
                             )
-                        ) { jalaliDate, localDate ->
-                            text = "${jalaliDate.format()} ${jalaliDate.getMonth()} ${
-                                jalaliDate.dayOfWeek(jalaliDate.day)
-                            }\n $localDate"
-                            today = jalaliDate.day
+                        ) { day ->
+                            val format = DateTimeFormatter.ofPattern("yyyy, MMM d")
+                            val g = day.gregorianDate.format(format)
+                            val h = day.hijrahDate.format(format)
+                            val j = "${day.jalaliDate.year}/${day.jalaliDate.month}/${day.jalaliDate.day}"
+                            text = "$g\n$h\n$j"
                         }
 
                         Spacer(Modifier.height(60.dp))
@@ -70,27 +68,6 @@ class MainActivity : ComponentActivity() {
                             text = text,
                             textAlign = TextAlign.Center
                         )
-
-//                        PersianCalendar(
-//                            modifier = Modifier.padding(8.dp),
-//                            elevation = 5.dp,
-//                            colors = PersianCalendarDefaults.getPersianCalendarColors(
-//                                headerColor = Color(0xFF007776),
-//                                headerDaysOfWeekColor = Color(0xFF007776),
-//                                dayColor = Color(0xFFf8f8f8),
-//                                dayOffColor = Color(0xFFFFF3E7),
-//                                cellTextColor = Color(0xFF637253),
-//                                offCellTextColor = Color(0xFFCA6700),
-//                                todayColor = Color(0xFF007776),
-//                                containerColor = Color.White
-//                            )
-//                        ) { jalaliDate, localDate ->
-//                            text = "${jalaliDate.format()} ${jalaliDate.getMonth()} ${
-//                                jalaliDate.dayOfWeek(jalaliDate.day)
-//                            }\n $localDate"
-//                            today = jalaliDate.day
-//                        }
-
                     }
                 }
             }

@@ -12,13 +12,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.amirsinarz.persiancalendar.PersianCalendarDefaults
+import com.amirsinarz.persiancalendar.model.CalendarDay
 import com.amirsinarz.persiancalendar.model.JalaliDate
 import com.amirsinarz.persiancalendar.model.PersianCalendarColors
 import com.amirsinarz.persiancalendar.ui.theme.PersianCalendarTheme
 import com.amirsinarz.persiancalendar.util.farsiDigits
-import com.amirsinarz.persiancalendar.util.jalaliToGregorian
 import com.amirsinarz.persiancalendar.viewmodel.PersianCalendarViewModel
-import java.time.LocalDate
 
 @Composable
 fun PersianCalendar(
@@ -35,7 +34,7 @@ fun PersianCalendar(
     animatePerItem: Boolean = true,
     animationDuration: Int = 200,
     animationDelay: Long = 30L,
-    onDateSelected: (JalaliDate, LocalDate)->Unit,
+    onDateSelected: (CalendarDay)->Unit,
 ) {
     viewModel.setDate(initDate.year, initDate.month, initDate.day)
     val jalaliDate = viewModel.jalaliDate
@@ -70,13 +69,8 @@ fun PersianCalendar(
                     fontFamily = fontFamily,
                     skipDays = jalaliDate.firstDayOfWeek().value,
                     days = jalaliDate.listOfDays(),
-                    gregDays = gregDate.listOfDays(jalaliDate)
-                ) { jDay, gDay ->
-                    val date = jalaliToGregorian(jalaliDate.year, jalaliDate.month, jDay.dayOfMonth)
-                    onDateSelected(
-                        JalaliDate(viewModel.jalaliDate.year, viewModel.jalaliDate.month, jDay.dayOfMonth),
-                        LocalDate.of(date[0], date[1], gDay)
-                    )
+                ) { selectedDay ->
+                    onDateSelected(selectedDay)
                 }
             }
         }

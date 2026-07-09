@@ -5,6 +5,7 @@ import com.amirsinarz.persiancalendar.exception.IllegalMonthException
 import com.amirsinarz.persiancalendar.util.jalaliToGregorian
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.chrono.HijrahDate
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -13,8 +14,8 @@ data class JalaliDate(
     val month: Int,
     val day: Int
 ) {
-    fun getMonth(): String {
-        val month = when (this.month) {
+    fun getMonth(month: Int = this.month): String {
+        val month = when (month) {
             1 -> Constants.JALALI_MONTH[0]
             2 -> Constants.JALALI_MONTH[1]
             3 -> Constants.JALALI_MONTH[2]
@@ -42,12 +43,20 @@ data class JalaliDate(
         return count
     }
 
-    internal fun listOfDays(): List<JalaliDay> {
+    internal fun listOfDays(): List<CalendarDay> {
         return (1..daysInMonth()).map { day ->
-            JalaliDay(
+
+            val greg = jalaliToGregorian(year, month, day)
+            val gregorianDate = LocalDate.of(greg[0], greg[1], greg[2])
+            val hijrahDate = HijrahDate.from(gregorianDate)
+
+            CalendarDay(
                 dayOfWeek = day.dayOfWeek(),
                 isDayOff = day.isFriDay(),
                 dayOfMonth = day,
+                jalaliDate = this,
+                gregorianDate = gregorianDate,
+                hijrahDate = hijrahDate,
                 isToday = day.isToday()
             )
             //TODO: add holidays for day off
@@ -58,9 +67,12 @@ data class JalaliDate(
         return this == day
     }
 
-    fun format(c: Char = '-'): String {
-        return "$year$c$month$c$day"
-    }
+    fun CalendarDay.format(pattern: String = "yyyy/mm/dd"): String =
+        pattern
+            .replace("yyyy", jalaliDate.year.toString(), ignoreCase = true)
+            .replace("mm", jalaliDate.month.toString(), ignoreCase = true)
+            .replace("dd", jalaliDate.day.toString(), ignoreCase = true)
+
 
     private fun isLeapYear(): Boolean {
         val r = year % 33
@@ -73,7 +85,8 @@ data class JalaliDate(
         return date.dayOfWeek
     }
 
-    fun dayOfWeek(day: Int): String = day.dayOfWeek().getDisplayName(TextStyle.FULL, Locale("fa", "IR"))
+    fun dayOfWeek(day: Int): String =
+        day.dayOfWeek().getDisplayName(TextStyle.FULL, Locale("fa", "IR"))
 
     private fun Int.isFriDay(): Boolean {
         return this.dayOfWeek() == DayOfWeek.FRIDAY
