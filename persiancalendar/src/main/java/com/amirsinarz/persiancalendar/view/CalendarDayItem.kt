@@ -19,22 +19,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.amirsinarz.persiancalendar.model.CalendarDay
 import com.amirsinarz.persiancalendar.model.PersianCalendarColors
 import com.amirsinarz.persiancalendar.util.farsiDigits
+import java.time.temporal.ChronoField
 
 @Composable
 internal fun DayItem(
     modifier: Modifier = Modifier,
-    isDayOff: Boolean = false,
-    dayOfMonth: Int,
-    gregorianDay: Int,
+    day: CalendarDay,
     colors: PersianCalendarColors,
     fontFamily: FontFamily,
-    today: Boolean,
     onClick: ()->Unit
 ) {
-    val bgColor = if (isDayOff) colors.dayOffColor else colors.dayColor
-    val textColor = if (isDayOff) colors.offCellTextColor else colors.cellTextColor
+    val bgColor = if (day.isDayOff) colors.dayOffColor else colors.dayColor
+    val textColor = if (day.isDayOff) colors.offCellTextColor else colors.cellTextColor
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -44,7 +43,7 @@ internal fun DayItem(
             .aspectRatio(1f)
             .clickable { onClick() }
             .then(
-                if (today) Modifier.border(width = 1.dp, color = colors.todayColor, shape = RoundedCornerShape(15.dp)) else Modifier
+                if (day.isToday) Modifier.border(width = 1.dp, color = colors.todayColor, shape = RoundedCornerShape(15.dp)) else Modifier
             )
     ) {
         Box(
@@ -52,7 +51,7 @@ internal fun DayItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                dayOfMonth.farsiDigits(),
+                day.dayOfMonth.farsiDigits(),
                 color = textColor,
                 style = MaterialTheme.typography.bodyMedium,
                 fontFamily = fontFamily
@@ -63,13 +62,13 @@ internal fun DayItem(
             modifier = Modifier.fillMaxWidth().padding(5.dp)
         ) {
             Text(
-                gregorianDay.toString(),
+                day.gregorianDate.dayOfMonth.toString(),
                 color = textColor.copy(alpha = .6f),
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = fontFamily
             )
             Text(
-                gregorianDay.farsiDigits(),
+                day.hijrahDate.get(ChronoField.DAY_OF_MONTH).farsiDigits(),
                 color = textColor.copy(alpha = .6f),
                 style = MaterialTheme.typography.bodySmall,
                 fontFamily = fontFamily

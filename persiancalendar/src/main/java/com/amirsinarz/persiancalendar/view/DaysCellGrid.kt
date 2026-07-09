@@ -22,9 +22,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.amirsinarz.persiancalendar.model.JalaliDay
+import com.amirsinarz.persiancalendar.model.CalendarDay
 import com.amirsinarz.persiancalendar.model.PersianCalendarColors
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 internal fun DaysCellGrid(
@@ -35,9 +36,8 @@ internal fun DaysCellGrid(
     colors: PersianCalendarColors,
     fontFamily: FontFamily,
     skipDays: Int,
-    days: List<JalaliDay>,
-    gregDays: List<Int>,
-    onClick: (JalaliDay, Int) -> Unit
+    days: List<CalendarDay>,
+    onClick: (CalendarDay) -> Unit
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         LazyVerticalGrid(
@@ -67,7 +67,7 @@ internal fun DaysCellGrid(
                 )
 
                 LaunchedEffect(Unit) {
-                    delay(if (animatePerItem) index*animationDelay else animationDelay)
+                    delay((if (animatePerItem) index*animationDelay else animationDelay).milliseconds)
                     visible = true
                 }
 
@@ -76,13 +76,10 @@ internal fun DaysCellGrid(
                         .scale(scale)
                         .alpha(alpha),
                     colors = colors,
-                    isDayOff = day.isDayOff,
-                    dayOfMonth = day.dayOfMonth,
-                    gregorianDay = gregDays[index],
-                    today = day.isToday,
+                    day = day,
                     fontFamily = fontFamily
                 ) {
-                    onClick(day, gregDays[index])
+                    onClick(day)
                 }
             }
         }
