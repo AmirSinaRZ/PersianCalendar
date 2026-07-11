@@ -33,7 +33,7 @@ PersianCalendar { selectedDay ->
     //do something with date here
 }
 ```
-selectedDay is [CalendarDay.kt](https://github.com/AmirSinaRZ/PersianCalendar/blob/master/persiancalendar/src/main/java/com/amirsinarz/persiancalendar/model/JalaliDate.kt)
+selectedDay is [CalendarDay.kt](https://github.com/AmirSinaRZ/PersianCalendar/blob/master/persiancalendar/src/main/java/com/amirsinarz/persiancalendar/model/CalendarDay.kt)
 ### usage with customization:
 ```kotlin
 PersianCalendar(
