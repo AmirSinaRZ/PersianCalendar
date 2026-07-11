@@ -3,7 +3,7 @@ An Android library built with jetpack compose - Persian calendar component. It's
 
 [![](https://jitpack.io/v/AmirSinaRZ/PersianCalendar.svg)](https://jitpack.io/#AmirSinaRZ/PersianCalendar)
 
-<img width="850" src="art/AddText_02-14-03.38.21.png" alt="Library Image">
+<img width="850" src="art/Screenshot_2026-07-11-21-11-27-092_com.amirsinarz.persiancalendar.sample-edit.jpg" alt="Library Image">
 
 # Setup
 Add the JitPack repository to settings.gradle file
@@ -54,10 +54,6 @@ PersianCalendar(
     onDateSelected: (CalendarDay)->Unit,
 ) 
 ```
-
-## Preview
-https://github.com/user-attachments/assets/c7ae8316-9fca-4479-aa62-29ced208dd1e
-
 
 ## Contributing
 Contributions are welcome! If you find a bug or would like to create a new feature, please submit a pull request.
