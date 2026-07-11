@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.amirsinarz.persiancalendar.PersianCalendarDefaults
 import com.amirsinarz.persiancalendar.model.CalendarDay
+import com.amirsinarz.persiancalendar.model.CalendarEvent
 import com.amirsinarz.persiancalendar.model.JalaliDate
 import com.amirsinarz.persiancalendar.model.PersianCalendarColors
 import com.amirsinarz.persiancalendar.ui.theme.PersianCalendarTheme
@@ -26,6 +27,7 @@ fun PersianCalendar(
     fontFamily: FontFamily = PersianCalendarDefaults.persianCalendarFont(),
     viewModel: PersianCalendarViewModel = viewModel(),
     initDate: JalaliDate = viewModel.jalaliDate,
+    events: List<CalendarEvent<*>> = emptyList(),
     elevation: Dp = 0.dp,
     contentPadding: Dp = 5.dp,
     cornerRadius: Dp = 8.dp,
@@ -68,7 +70,7 @@ fun PersianCalendar(
                     colors = colors,
                     fontFamily = fontFamily,
                     skipDays = jalaliDate.firstDayOfWeek().value,
-                    days = jalaliDate.listOfDays(),
+                    days = jalaliDate.listOfDays(events),
                 ) { selectedDay ->
                     onDateSelected(selectedDay)
                 }

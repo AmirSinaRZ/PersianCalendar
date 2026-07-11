@@ -43,36 +43,32 @@ data class JalaliDate(
         return count
     }
 
-    internal fun listOfDays(): List<CalendarDay> {
+    internal fun listOfDays(events: List<CalendarEvent<*>>): List<CalendarDay> {
         return (1..daysInMonth()).map { day ->
 
             val greg = jalaliToGregorian(year, month, day)
             val gregorianDate = LocalDate.of(greg[0], greg[1], greg[2])
             val hijrahDate = HijrahDate.from(gregorianDate)
+            val eventsMap = events.associateBy { it.date }
+
+            val jalaliDay = JalaliDate(year, month, day)
 
             CalendarDay(
                 dayOfWeek = day.dayOfWeek(),
-                isDayOff = day.isFriDay(),
+                isDayOff = day.isFriDay() || eventsMap.containsKey(jalaliDay),
                 dayOfMonth = day,
-                jalaliDate = this,
+                jalaliDate = jalaliDay,
                 gregorianDate = gregorianDate,
                 hijrahDate = hijrahDate,
-                isToday = day.isToday()
+                isToday = day.isToday(),
+                event = eventsMap[jalaliDay]
             )
-            //TODO: add holidays for day off
         }
     }
 
     private fun Int.isToday(): Boolean {
         return this == day
     }
-
-    fun CalendarDay.format(pattern: String = "yyyy/mm/dd"): String =
-        pattern
-            .replace("yyyy", jalaliDate.year.toString(), ignoreCase = true)
-            .replace("mm", jalaliDate.month.toString(), ignoreCase = true)
-            .replace("dd", jalaliDate.day.toString(), ignoreCase = true)
-
 
     private fun isLeapYear(): Boolean {
         val r = year % 33
