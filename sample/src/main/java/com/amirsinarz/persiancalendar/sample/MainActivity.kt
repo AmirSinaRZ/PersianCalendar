@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                         PersianCalendar(
                             modifier = Modifier.padding(8.dp),
                             elevation = 5.dp,
-                            initDate = JalaliDate(1405, 1, 24),
+                            //initDate = JalaliDate(1405, 1, 24),
                             events = getEvents(),
                             colors = PersianCalendarDefaults.getPersianCalendarColors(
                                 headerColor = Color(0xFF007776),
