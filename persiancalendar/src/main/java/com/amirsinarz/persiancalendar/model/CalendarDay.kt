@@ -11,6 +11,6 @@ data class CalendarDay(
     val jalaliDate: JalaliDate,
     val gregorianDate: LocalDate,
     val hijrahDate: HijrahDate,
-    val isToday: Boolean
+    val isToday: Boolean,
+    val event: CalendarEvent<*>?
 )
-//TODO: add desc and events
