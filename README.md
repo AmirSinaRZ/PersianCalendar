@@ -21,37 +21,38 @@ Add the dependencies to app-level build.gradle file
 ```gradle
 dependencies {
     ...
-    implementation 'com.github.AmirSinaRZ:PersianCalendar:1.0.0'
+    implementation 'com.github.AmirSinaRZ:PersianCalendar:1.1.0'
 }
 ```
 
 # Usage
 ### simple usage
-to show persian calendar whitout any customization:
+to show Persian calendar without any customization:
 ```kotlin
-PersianCalendar { jalaliDate, localDate ->
+PersianCalendar { selectedDay ->
     //do something with date here
 }
 ```
-localDate is java.time.LocalDate & jalaliDate is [JalaliDate.kt](https://github.com/AmirSinaRZ/PersianCalendar/blob/master/persiancalendar/src/main/java/com/amirsinarz/persiancalendar/model/JalaliDate.kt)
+selectedDay is [CalendarDay.kt](https://github.com/AmirSinaRZ/PersianCalendar/blob/master/persiancalendar/src/main/java/com/amirsinarz/persiancalendar/model/JalaliDate.kt)
 ### usage with customization:
 ```kotlin
 PersianCalendar(
     modifier: Modifier = Modifier,
     colors: PersianCalendarColors = PersianCalendarDefaults.getPersianCalendarColors(),
     fontFamily: FontFamily = PersianCalendarDefaults.persianCalendarFont(),
-    initDate: JalaliDate = JalaliDate(1403, 11, 1), //default is current date
+    viewModel: PersianCalendarViewModel = viewModel(),
+    initDate: JalaliDate = viewModel.jalaliDate,
+    events: List<CalendarEvent<*>> = emptyList(),
     elevation: Dp = 0.dp,
     contentPadding: Dp = 5.dp,
     cornerRadius: Dp = 8.dp,
-    showFullWeekDay: Boolean = false, //true: شنبه, false: ش
+    showFullWeekDay: Boolean = false,
     animate: Boolean = true,
     animatePerItem: Boolean = true,
     animationDuration: Int = 200,
     animationDelay: Long = 30L,
-) { jalaliDate, localDate ->
-    // do something with date here
-}
+    onDateSelected: (CalendarDay)->Unit,
+) 
 ```
 
 ## Preview
