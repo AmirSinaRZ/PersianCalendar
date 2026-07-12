@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         minSdk = 26
-        version = "1.1.0"
+        version = "1.1.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -38,7 +38,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId="com.github.AmirSinaRZ"
                 artifactId="persiancalendar"
-                version="1.1.0"
+                version="1.1.1"
             }
         }
     }

@@ -17,16 +17,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.amirsinarz.persiancalendar.PersianCalendarDefaults
 import com.amirsinarz.persiancalendar.model.CalendarEvent
 import com.amirsinarz.persiancalendar.model.JalaliDate
 import com.amirsinarz.persiancalendar.sample.ui.theme.SampleTheme
 import com.amirsinarz.persiancalendar.view.PersianCalendar
 import java.time.format.DateTimeFormatter
-import kotlin.collections.emptyList
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,25 +44,14 @@ class MainActivity : ComponentActivity() {
                         PersianCalendar(
                             modifier = Modifier.padding(8.dp),
                             elevation = 5.dp,
-                            //initDate = JalaliDate(1405, 1, 24),
-                            events = getEvents(),
-                            colors = PersianCalendarDefaults.getPersianCalendarColors(
-                                headerColor = Color(0xFF007776),
-                                headerDaysOfWeekColor = Color(0xFF007776),
-                                dayColor = Color(0xFFf8f8f8),
-                                dayOffColor = Color(0xFFFFF3E7),
-                                cellTextColor = Color(0xFF637253),
-                                offCellTextColor = Color(0xFFCA6700),
-                                todayColor = Color(0xFF007776),
-                                containerColor = Color.White
-                            )
+                            events = getEvents()
                         ) { day ->
                             val format = DateTimeFormatter.ofPattern("yyyy, MMM d")
                             val g = day.gregorianDate.format(format)
                             val h = day.hijrahDate.format(format)
                             val j =
                                 "${day.jalaliDate.year}/${day.jalaliDate.month}/${day.jalaliDate.day}"
-                            val events: String = ((day.event?.data ?: emptyList<List<String>>()) as List<String>).toString()
+                            val events: String = ((day.event?.data ?: emptyList<List<String>>()) as List<String>).joinToString()
 
 
                             text = "$g\n$h\n$j\n$events"

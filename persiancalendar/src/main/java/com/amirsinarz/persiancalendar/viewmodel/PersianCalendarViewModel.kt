@@ -36,9 +36,10 @@ class PersianCalendarViewModel : ViewModel() {
 
     private fun getGregMonthOfJalaliMonth(): List<Month> {
         val gregMonthOfFirstDay = jalaliToGregorian(jalaliDate.year, jalaliDate.month, 1)
+        val month = gregMonthOfFirstDay[1]
         return listOf(
-            Month.of(gregMonthOfFirstDay[1]),
-            Month.of(gregMonthOfFirstDay[1] + 1)
+            Month.of(month),
+            Month.of(month).plus(1)
         )
     }
 
